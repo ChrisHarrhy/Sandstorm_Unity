@@ -21,7 +21,7 @@ public class FollowCam : MonoBehaviour
 
         else
         {
-            Transform.
+           
         }
     }
 
