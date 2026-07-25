@@ -5,7 +5,8 @@ using UnityEngine;
 public class FollowCam : MonoBehaviour
 {
     public GameObject player;
-
+    public Vector3 offset; //Vector3(0f, 0f, 5.0f);
+    public float smooth = 10.0f;
 
     private void Start()
     {
@@ -21,7 +22,7 @@ public class FollowCam : MonoBehaviour
 
         else
         {
-           
+            this.transform.position = player.transform.position - offset;
         }
     }
 
