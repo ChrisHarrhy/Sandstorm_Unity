@@ -11,7 +11,7 @@ public class Playercontroller : MonoBehaviour
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float gravity = -9.8f;
     private CharacterController characterController;
-    private Vector3 moveInput;
+    private Vector2 moveInput;
     private Vector3 velocity;
     private bool isJumping;
 
@@ -20,7 +20,8 @@ public class Playercontroller : MonoBehaviour
     [SerializeField] private float groundRadius = 0.3f;
     [SerializeField] private LayerMask groundMask;
 
-    
+    [SerializeField] private float jumpBufferTime = 0.15f;
+    private float jumpBufferCounter;
 
     void Start()
     {
@@ -43,7 +44,20 @@ public class Playercontroller : MonoBehaviour
 
     private void Update()
     {
-        bool isGrounded = Physics.CheckSphere(groundCheckPoint.position, groundRadius, groundMask);
+        //bool isGrounded = Physics.CheckSphere(groundCheckPoint.position, groundRadius, groundMask);
+
+        /** Collider[] hits = Physics.OverlapSphere(
+             groundCheckPoint.position,
+             groundRadius,
+             groundMask);**/
+
+        float castDistance = 0.4f;
+
+        bool isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
+
+        //Debug.Log($"CheckSphere: {isGrounded} | Hits: {hits.Length}");
+
+        Debug.DrawRay(groundCheckPoint.position, Vector3.down * castDistance, isGrounded ? Color.green:Color.red);
 
         Debug.Log(isGrounded);
 
@@ -70,5 +84,12 @@ public class Playercontroller : MonoBehaviour
 
         Vector3 finalMovement = (move * speed) + velocity;
         characterController.Move(finalMovement * Time.deltaTime);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        //Gizmos.DrawSphere(groundCheckPoint.position, groundRadius);
+        
     }
 }
