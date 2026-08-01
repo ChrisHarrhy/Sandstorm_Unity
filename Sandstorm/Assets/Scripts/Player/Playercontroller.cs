@@ -22,6 +22,7 @@ public class Playercontroller : MonoBehaviour
 
     [SerializeField] private float jumpBufferTime = 0.15f;
     private float jumpBufferCounter;
+    public float castDistance = 0.2f;
 
     void Start()
     {
@@ -31,65 +32,51 @@ public class Playercontroller : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        Debug.Log($"Move Input: {moveInput}");
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            isJumping = true;
+            jumpBufferCounter = jumpBufferTime;
+
+            if (velocity.y > 0)
+            {
+                jumpBufferCounter = 0f;
+            }
         }
     }
 
     private void Update()
     {
-        //bool isGrounded = Physics.CheckSphere(groundCheckPoint.position, groundRadius, groundMask);
-
-        /** Collider[] hits = Physics.OverlapSphere(
-             groundCheckPoint.position,
-             groundRadius,
-             groundMask);**/
-
-        float castDistance = 0.4f;
-
         bool isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
-
-        //Debug.Log($"CheckSphere: {isGrounded} | Hits: {hits.Length}");
 
         Debug.DrawRay(groundCheckPoint.position, Vector3.down * castDistance, isGrounded ? Color.green:Color.red);
 
         Debug.Log(isGrounded);
+
+        if(jumpBufferCounter < 0)
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
 
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
-        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
-
-        if (isJumping)
+        if (jumpBufferCounter > 0f && isGrounded)
         {
-            if (isGrounded)
-            {
-                Debug.Log("Jumping");
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            }
-
-            isJumping = false;
+            Debug.Log("Jumping");
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            jumpBufferCounter = 0f;
         }
 
+        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
         velocity.y += gravity * Time.deltaTime;
 
 
         Vector3 finalMovement = (move * speed) + velocity;
         characterController.Move(finalMovement * Time.deltaTime);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        //Gizmos.DrawSphere(groundCheckPoint.position, groundRadius);
-        
     }
 }
