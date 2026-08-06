@@ -51,9 +51,9 @@ public class Playercontroller : MonoBehaviour
     {
         bool isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
 
-        Debug.DrawRay(groundCheckPoint.position, Vector3.down * castDistance, isGrounded ? Color.green:Color.red);
+        //Debug.DrawRay(groundCheckPoint.position, Vector3.down * castDistance, isGrounded ? Color.green:Color.red);
 
-        Debug.Log(isGrounded);
+        //Debug.Log(isGrounded);
 
         if(jumpBufferCounter < 0)
         {
