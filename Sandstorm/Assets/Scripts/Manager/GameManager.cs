@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
    
     void Update()
     {
-        elapsedTime += Time.deltaTime;
+        elapsedTime += Time.deltaTime * 60;
         UpdateClockUI();
     }
 
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         float minutes = Mathf.FloorToInt((elapsedTime - hours * 3600f) / 60f);
         float seconds = Mathf.FloorToInt((elapsedTime - hours * 3600f) - (minutes * 60f));
 
-        string clockString = string.Format("{0:00}.{1:00}.{2:00}", hours, minutes, seconds);
+        string clockString = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
         clockText.text = clockString;
     }
 }
