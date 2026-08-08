@@ -1,6 +1,3 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +20,8 @@ public class Playercontroller : MonoBehaviour
     [SerializeField] private float jumpBufferTime = 0.15f;
     private float jumpBufferCounter;
     public float castDistance = 0.2f;
+
+    [SerializeField] private Transform cameraTransform;
 
     void Start()
     {
@@ -51,10 +50,6 @@ public class Playercontroller : MonoBehaviour
     {
         bool isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
 
-        //Debug.DrawRay(groundCheckPoint.position, Vector3.down * castDistance, isGrounded ? Color.green:Color.red);
-
-        //Debug.Log(isGrounded);
-
         if(jumpBufferCounter < 0)
         {
             jumpBufferCounter -= Time.deltaTime;
@@ -75,8 +70,24 @@ public class Playercontroller : MonoBehaviour
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
         velocity.y += gravity * Time.deltaTime;
 
-
         Vector3 finalMovement = (move * speed) + velocity;
         characterController.Move(finalMovement * Time.deltaTime);
+
+        Vector3 forward = cameraTransform.forward; ;
+        Vector3 right = cameraTransform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 moveDirection = (forward * moveInput.y) + (right * moveInput.x);
+
+        if(moveDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        }
     }
 }
