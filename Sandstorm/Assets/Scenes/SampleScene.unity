@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clockText: {fileID: 655864653}
+  stormActive: 0
 --- !u!4 &534661066
 Transform:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [Header("Storm activity")]
     public bool stormActive;
     private float stormStartTime = 2f;
-    private float stormEndTime = 19.5f;
+    private float stormEndTime = 12f;
    
     void Update()
     {
