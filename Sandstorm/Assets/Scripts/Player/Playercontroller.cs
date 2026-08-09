@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Playercontroller : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Movement stats")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float gravity = -9.8f;
     private CharacterController characterController;
-    private Vector2 moveInput;
+    private Vector3 moveInput;
     private Vector3 velocity;
     private bool isJumping;
 
@@ -21,7 +21,7 @@ public class Playercontroller : MonoBehaviour
     private float jumpBufferCounter;
     public float castDistance = 0.2f;
 
-    [SerializeField] private Transform cameraTransform;
+    // [SerializeField] private Transform cameraTransform;
 
     void Start()
     {
@@ -50,7 +50,7 @@ public class Playercontroller : MonoBehaviour
     {
         bool isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
 
-        if(jumpBufferCounter < 0)
+        if (jumpBufferCounter < 0)
         {
             jumpBufferCounter -= Time.deltaTime;
         }
@@ -72,22 +72,5 @@ public class Playercontroller : MonoBehaviour
 
         Vector3 finalMovement = (move * speed) + velocity;
         characterController.Move(finalMovement * Time.deltaTime);
-
-        Vector3 forward = cameraTransform.forward; ;
-        Vector3 right = cameraTransform.right;
-
-        forward.y = 0f;
-        right.y = 0f;
-
-        forward.Normalize();
-        right.Normalize();
-
-        Vector3 moveDirection = (forward * moveInput.y) + (right * moveInput.x);
-
-        if(moveDirection != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        }
     }
 }
