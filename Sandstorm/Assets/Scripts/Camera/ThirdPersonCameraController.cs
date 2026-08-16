@@ -14,41 +14,15 @@ public class ThirdPersonCameraController : MonoBehaviour
     private CinemachineOrbitalFollow orbital;
     private CinemachineBrain brain;
 
-    private float targetZoom;
-    private float currentZoom;
-
     void Start()
     {
         controls = new PlayerControls();
         controls.Enable();
-        controls.Player.Zoomcamera.performed += ScrollClicked;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    private void ScrollClicked(InputAction.CallbackContext context)
-    {
-        float isPressed = context.ReadValue<float>();
-
-        ToggleZoom();
     }
 
     void Update()
     {
 
-    }
-
-    void ToggleZoom()
-    {
-        if (controls != null)
-        {
-            Debug.Log("Nothing input connected");
-
-            float zoomDelta = controls.Player.Zoomcamera.ReadValue<float>();
-
-            targetZoom = Mathf.Clamp(orbital.Radius - zoomDelta * zoomSpeed, minDistance, maxDistance);
-
-            orbital.Radius = currentZoom;
-        }
     }
 }
 

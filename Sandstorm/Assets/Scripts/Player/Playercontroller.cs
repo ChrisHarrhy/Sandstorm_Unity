@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveInput;
     private Vector3 velocity;
     private bool isJumping;
+    private bool isSprinting;
 
     [Header("Ground check")]
     [SerializeField] private Transform groundCheckPoint;
@@ -20,6 +22,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpBufferTime = 0.15f;
     private float jumpBufferCounter;
     public float castDistance = 0.2f;
+
+    [SerializeField] private Transform camTransform;
+    [SerializeField] private bool shouldFaceDirection = false;
 
     // [SerializeField] private Transform cameraTransform;
 
@@ -46,6 +51,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        if (isSprinting)
+        {
+            isSprinting = false;
+            speed = 3f;
+        }
+        else
+        {
+            isSprinting= true;
+            speed = 5f;
+        }
+    }
+
     private void Update()
     {
         bool isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
@@ -62,15 +81,30 @@ public class PlayerController : MonoBehaviour
 
         if (jumpBufferCounter > 0f && isGrounded)
         {
-            Debug.Log("Jumping");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             jumpBufferCounter = 0f;
         }
 
-        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
+        Vector3 forward = camTransform.forward;
+        Vector3 right = camTransform.right;
+        forward.y = 0f;
+        right.y = 0f;
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 moveDirection = (forward * moveInput.y) + (right * moveInput.x);
+        characterController.Move(moveDirection * speed * Time.deltaTime);
+
+        if (shouldFaceDirection && moveDirection.sqrMagnitude > 0.001f)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
+
+        }
+
         velocity.y += gravity * Time.deltaTime;
 
-        Vector3 finalMovement = (move * speed) + velocity;
+        Vector3 finalMovement = (moveDirection * speed) + velocity;
         characterController.Move(finalMovement * Time.deltaTime);
     }
 }
