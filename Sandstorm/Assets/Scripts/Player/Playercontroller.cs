@@ -5,14 +5,13 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement stats")]
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed = 3f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float gravity = -9.8f;
     private CharacterController characterController;
     private Vector3 moveInput;
     private Vector3 velocity;
-    private bool isJumping;
-    private bool isSprinting;
+    private bool isSprinting = false;
 
     [Header("Ground check")]
     [SerializeField] private Transform groundCheckPoint;
@@ -25,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform camTransform;
     [SerializeField] private bool shouldFaceDirection = false;
+
+    [SerializeField] private bool sprintToggle = false; // Will later be in pause menu script
 
     // [SerializeField] private Transform cameraTransform;
 
@@ -53,15 +54,34 @@ public class PlayerController : MonoBehaviour
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (isSprinting)
+        if (sprintToggle)
         {
-            isSprinting = false;
-            speed = 3f;
+            if (context.performed)
+            {
+                if (!isSprinting)
+                {
+                    isSprinting = true;
+                    speed = 5f;
+                }
+                else
+                {
+                    isSprinting = false;
+                    speed = 3f;
+                }
+            }
         }
         else
         {
-            isSprinting= true;
-            speed = 5f;
+            if (context.performed)
+            {
+                isSprinting = true;
+                speed = 5f;
+            }
+            else if (context.canceled)
+            {
+                isSprinting = false;
+                speed = 3f;
+            }
         }
     }
 
