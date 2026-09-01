@@ -1,18 +1,21 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Animations : MonoBehaviour
 {
     [SerializeField] private float speedDampTime;
 
+    private readonly int speedHash = Animator.StringToHash("Speed");
+
     private Animator animator;
     private CharacterController characterController;
     private PlayerController playerController;
 
-    private readonly int speedHash = Animator.StringToHash("Speed");
+    /*private readonly int speedHash = Animator.StringToHash("Speed");
     private readonly int isGroundHash = Animator.StringToHash("isGrounded");
     private readonly int jumpTriggerHash = Animator.StringToHash("Jump");
-    private readonly int crouchHash = Animator.StringToHash("Crouch");
+    private readonly int crouchHash = Animator.StringToHash("Crouch");*/
 
     private void Awake()
     {
@@ -23,11 +26,8 @@ public class Animations : MonoBehaviour
 
     private void Update()
     {
-        UpdateAnimatorParameters();
-    }
+        float targetSpeed = playerController.CurrentSpeed;
 
-    private void UpdateAnimatorParameters()
-    {
-        
+        animator.SetFloat(speedHash, targetSpeed, 0.1f, Time.deltaTime);
     }
 }
