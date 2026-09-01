@@ -129,7 +129,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 362431860363834237, guid: 607a22327514c174bbb948ab2cb76989, type: 3}
       propertyPath: speed
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 362431860363834237, guid: 607a22327514c174bbb948ab2cb76989, type: 3}
       propertyPath: camTransform

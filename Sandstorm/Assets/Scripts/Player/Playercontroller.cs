@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool sprintToggle = false;
     [SerializeField] private bool walkToggle = false;
 
+    public bool isGrounded { get; private set; } 
+
+    private PlayerAnimations playerAnims;
+
     // Public property so your Animation script can easily read real-time target speed
     public float CurrentSpeed => moveInput.magnitude * speed;
 
@@ -110,7 +114,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        bool isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
+        isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
 
         if (jumpBufferCounter > 0)
         {
