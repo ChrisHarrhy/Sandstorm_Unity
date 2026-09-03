@@ -29,12 +29,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool sprintToggle = false;
     [SerializeField] private bool walkToggle = false;
 
+    public bool isGrounded { get; private set; } 
+
+    private PlayerAnimations playerAnims;
+
     // Public property so your Animation script can easily read real-time target speed
     public float CurrentSpeed => moveInput.magnitude * speed;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        playerAnims = GetComponent<PlayerAnimations>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -52,6 +57,8 @@ public class PlayerController : MonoBehaviour
             {
                 jumpBufferCounter = 0f;
             }
+
+            playerAnims.JumpAnim();
         }
     }
 
@@ -110,7 +117,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        bool isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
+        isGrounded = Physics.Raycast(groundCheckPoint.position, Vector3.down, castDistance, groundMask);
 
         if (jumpBufferCounter > 0)
         {
@@ -150,7 +157,5 @@ public class PlayerController : MonoBehaviour
         // Combine horizontal move direction with vertical velocity into ONE single move call
         Vector3 finalMovement = (moveDirection * speed) + velocity;
         characterController.Move(finalMovement * Time.deltaTime);
-
-        Debug.Log(speed);
     }
 }
