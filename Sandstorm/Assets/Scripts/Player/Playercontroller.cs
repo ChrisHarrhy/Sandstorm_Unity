@@ -58,7 +58,10 @@ public class PlayerController : MonoBehaviour
                 jumpBufferCounter = 0f;
             }
 
-            playerAnims.JumpAnim();
+            if (isGrounded)
+            {
+                playerAnims.JumpAnim();
+            }
         }
     }
 
