@@ -160,5 +160,7 @@ public class PlayerController : MonoBehaviour
         // Combine horizontal move direction with vertical velocity into ONE single move call
         Vector3 finalMovement = (moveDirection * speed) + velocity;
         characterController.Move(finalMovement * Time.deltaTime);
+
+       
     }
 }
