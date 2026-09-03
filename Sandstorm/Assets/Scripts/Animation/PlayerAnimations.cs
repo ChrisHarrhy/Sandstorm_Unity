@@ -35,5 +35,6 @@ public class PlayerAnimations : MonoBehaviour
     public void JumpAnim()
     {
         animator.SetTrigger(jumpTriggerHash);
+        Debug.Log("Player jump animation should play");
     }
 }

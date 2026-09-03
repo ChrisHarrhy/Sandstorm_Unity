@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        playerAnims = GetComponent<PlayerAnimations>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -56,6 +57,8 @@ public class PlayerController : MonoBehaviour
             {
                 jumpBufferCounter = 0f;
             }
+
+            playerAnims.JumpAnim();
         }
     }
 
@@ -154,7 +157,5 @@ public class PlayerController : MonoBehaviour
         // Combine horizontal move direction with vertical velocity into ONE single move call
         Vector3 finalMovement = (moveDirection * speed) + velocity;
         characterController.Move(finalMovement * Time.deltaTime);
-
-        Debug.Log(speed);
     }
 }
