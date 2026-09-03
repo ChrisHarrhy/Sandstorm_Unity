@@ -27,16 +27,6 @@
                     "priority": 0
                 },
                 {
-                    "name": "Zoom camera",
-                    "type": "Button",
-                    "id": "851c03e4-58f8-4724-b2c4-a153c27b9582",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "42088c44-93e9-430f-91fc-c0ea6bbfee43",
@@ -120,6 +110,16 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "37f2185b-03bb-4b8c-96be-7c120c12ff9f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Walk",
+                    "type": "Button",
+                    "id": "1fdfa6a8-8ff8-47aa-95bb-57b5243fe555",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -306,28 +306,6 @@
                 },
                 {
                     "name": "",
-                    "id": "8d5c6b96-c9da-4d5d-8535-7d2d8e5870f5",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d8114cfa-0f18-4a4b-97d1-7b6f521359c8",
-                    "path": "<Gamepad>/rightStickPress",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "5043bca9-8a01-44c7-a476-f8ec9430195f",
                     "path": "<Keyboard>/c",
                     "interactions": "",
@@ -433,6 +411,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6be454bc-d7e9-4c71-b858-671b9bef2b43",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Walk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a8073dd-3cac-42e5-9d97-e14ebd8255f9",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Walk",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
